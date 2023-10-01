@@ -1,27 +1,25 @@
-import React from 'react'
-import { Routes, Route } from 'react-router-dom'
-import Home from './components/Home'
-import About from './components/About'
-import './tabs.css'
-import { Link } from 'react-router-dom'
+import './tabs.css';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Home from './components/Home';
+import About from './components/About';
+import ScreenRecoder from './components/screenrecoder';
+import Completed from './components/Completed';
+import VideoGallery from './components/Video/Videos';
+import VideoLists from './components/VideoLists';
 
 function Tabs() {
-    return (
-        <div>
-            <ul>
-                <li>
-                    <Link to="/">Home</Link>
-                </li>
-                <li>
-                    <Link to="/about">About</Link>
-                </li>
-            </ul>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
-            </Routes>
-        </div>
-    )
+	return (
+		<div>
+			<Routes>
+				<Route path='/' element={<Home />} />
+				<Route path='/helpmeout' element={<ScreenRecoder />} />
+				<Route path='/screenrecorder' element={<ScreenRecoder />} />
+				<Route path='/recent-videos' element={<VideoLists />} />
+				<Route path='/completed' element={<Completed />} />
+			</Routes>
+		</div>
+	);
 }
 
-export default Tabs
+export default Tabs;

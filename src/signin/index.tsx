@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import '../assets/tailwind.css';
-import Popup from './popup';
+import Signin from './signin';
 
 function init() {
 	const appContainer = document.createElement('div');
@@ -11,7 +11,7 @@ function init() {
 	}
 	const root = createRoot(appContainer);
 	console.log(appContainer);
-	root.render(<Popup />);
+	root.render(<Signin />);
 }
 
 init();
