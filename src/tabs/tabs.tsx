@@ -12,11 +12,12 @@ function Tabs() {
 	return (
 		<div>
 			<Routes>
-				<Route path='/' element={<Home />} />
+				<Route path='/' element={<ScreenRecoder />} />
+				<Route path='/home' element={<Home />} />
 				<Route path='/helpmeout' element={<ScreenRecoder />} />
 				<Route path='/screenrecorder' element={<ScreenRecoder />} />
 				<Route path='/recent-videos' element={<VideoLists />} />
-				<Route path='/completed' element={<Completed />} />
+				<Route path='/completed/:id' element={<Completed />} />
 			</Routes>
 		</div>
 	);

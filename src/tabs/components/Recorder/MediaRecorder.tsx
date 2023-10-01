@@ -17,7 +17,7 @@ const MediaRecorder = ({ setIsAudio, setIsVideo, isVideo, isAudio, pauseRecordin
 		try {
 			const stream = await navigator.mediaDevices.getUserMedia({ video: true });
 			if (isVideo) {
-				videoRef.current.srcObject = stream; // Set the camera stream as the srcObject
+				videoRef.current.srcObject = stream;
 			} else {
 				console.error('videoRef is undefined');
 			}
@@ -27,7 +27,7 @@ const MediaRecorder = ({ setIsAudio, setIsVideo, isVideo, isAudio, pauseRecordin
 	};
 
 	function stopCamera() {
-		if (videoRef.current) {
+		if (videoRef) {
 			const tracks = videoRef.current.srcObject?.getTracks();
 			tracks?.forEach((track) => {
 				track.stop();
@@ -36,13 +36,20 @@ const MediaRecorder = ({ setIsAudio, setIsVideo, isVideo, isAudio, pauseRecordin
 		}
 	}
 
-	const handleStopRecording = () => {
+	const handleStopRecording = async () => {
 		if (status === 'recording' || status === 'paused') {
 			stopRecording();
 			stopCamera();
-			navigate('/completed');
-			if (blobUrl) {
-				handleUpload(blobUrl);
+			try {
+				const result = await handleUpload(blobUrl);
+				console.log(result);
+				if (!result) {
+					throw new Error('Error Uploading Video');
+				}
+				alert('Video Uploaded Successfully');
+				navigate(`/completed/${result}`);
+			} catch (error) {
+				alert(error.message);
 			}
 		}
 	};
@@ -52,12 +59,6 @@ const MediaRecorder = ({ setIsAudio, setIsVideo, isVideo, isAudio, pauseRecordin
 			startCamera();
 		}
 	}, [status, isVideo]);
-
-	// useEffect(() => {
-	// 	if (blobUrl) {
-	// 		handleUpload(blobUrl);
-	// 	}
-	// }, [blobUrl]);
 
 	return (
 		<div>

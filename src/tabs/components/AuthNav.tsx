@@ -5,7 +5,7 @@ const AuthNav = () => {
 	return (
 		<nav className=' p-4 px-4 lg:px-16 xl:px-36 flex items-center justify-between '>
 			<div className='flex items-center'>
-				<Link to='/'>
+				<Link to='/home'>
 					<img src='logo.png' alt='Logo' width={160} height={70} className=' mr-2' />
 				</Link>
 			</div>

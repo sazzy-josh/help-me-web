@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import AuthNav from './AuthNav';
 
 import { LuCopy } from 'react-icons/lu';
+
+import { useParams } from 'react-router-dom';
+import Navbar from './Navbar';
+import { BiEdit } from 'react-icons/bi';
 
 const data = [
 	{
@@ -56,8 +60,23 @@ const videoTranscript = [
 ];
 const VideoDetails = () => {
 	const [receiver, setReceiver] = useState('');
-	const [searchQuery, setSearchQuery] = useState('');
+	const [videoName, setVideoName] = useState('Untitled_Video_20232509');
+	const [edit, setEdit] = useState(true);
+	const params = useParams();
 	const url = 'https://example.com/video1.mp4';
+	const { id, slug } = params;
+
+	const fetchVideo = async (id: string) => {
+		try {
+			const { data } = await axios.post(`https://chrome-extension-y2lb.onrender.com/upload?${id}`);
+			console.log(data);
+			return data;
+		} catch (error) {}
+	};
+
+	useEffect(() => {
+		fetchVideo(id);
+	}, [id]);
 
 	const pathname = '';
 	const path = decodeURIComponent(pathname).split('/').slice(0, 3).join('/') + '/';
@@ -68,64 +87,76 @@ const VideoDetails = () => {
 	};
 	return (
 		<>
-			<AuthNav />
-			<section className='p-4 px-4 lg:px-16 xl:px-36 pb-20'>
-				{/* <h2 className=' text-xl flex items-center'>
-					{path.replace(/\//g, ' / ')} <span className='text-[#413C6D] font-semibold ml-2'>{`${decodeURIComponent(slug)}`}</span>
-				</h2> */}
-				{/* <h1 className='text-[#141414] font-bold flex items-center gap-2 text-2xl my-4'>
-					{decodeURIComponent(slug)} <BiEdit className='rounded-md' />
-				</h1> */}
-				<section className='mt-8 shadow-md p-4 rounded-xl'>
-					<video controls className='w-full h-auto my-4 rounded-xl'>
-						<source src='https://example.com/video1.mp4' type='video/mp4' />
-						Your browser does not support the video tag.
-					</video>
-				</section>
-				<section className='flex items-center mt-8 justify-between'>
-					<div>
-						<form action='' onSubmit={handleSubmit} className='flex items-center  bg-[#B6B3C680]/20 rounded-md py-4 w-[450px] px-6'>
-							<input type='text' className='w-full placeholder:text-[14px] focus:outline-none bg-transparent' value={receiver} onChange={(e) => setSearchQuery(e?.target?.value)} placeholder='enter email or receiver' />
+			<Navbar />
+			<main className='p-4 mt-12 px-4 lg:px-16 xl:px-36 pb-20 grid grid-cols-2 gap-4 divide-x-2 divide-gray-200'>
+				<section className='px-8'>
+					<h1 className='text-[2rem] font-bold mb-8'>Your Video is ready</h1>
+					<form action='' className='flex items-center'>
+						<div>
+							<label htmlFor='name' className='text-[#727272] font-semibold'>
+								Name
+							</label>
+							<input disabled={edit} className='text-[#413C6D] font-semibold text-xl w-full placeholder:text-[14px] focus:outline-none bg-transparent p-4 border-none' type='text' value={videoName} onChange={(e) => setVideoName(e.target.value)} />
+						</div>
+						<BiEdit onClick={() => setEdit(true)} />
+					</form>
+					<section className='flex flex-col gap-12 items-center mt-8 justify-between'>
+						<form action='' onSubmit={handleSubmit} className='flex items-center  bg-[#B6B3C680]/20 rounded-md py-2 w-full px-6'>
+							<input type='text' className='w-full placeholder:text-[14px] focus:outline-none bg-transparent' value={receiver} onChange={(e) => setReceiver(e?.target?.value)} placeholder='enter email or receiver' />
 							<button className='bg-[#605C84] py-2 px-4 text-white rounded-[8px] w-auto'>Send</button>
 						</form>
-					</div>
-					<div>
-						<form action='' onSubmit={handleSubmit} className='flex items-center gap-6  bg-[#B6B3C680]/20 rounded-md py-4 w-full px-6'>
-							<input type='text' className='w-full placeholder:text-[14px] text-[#4B4B4B] focus:outline-none bg-transparent' disabled value={url} onChange={(e) => setSearchQuery(e?.target?.value)} placeholder='enter email or receiver' />
-							<button className='bg-transparent text-[#120B48] border border-[#120B48] text-base py-1 px-2  flex items-center justify-center  rounded-[8px] w-[200px] gap-2'>
-								<LuCopy /> copy url
-							</button>
-						</form>
-					</div>
+						<div className='w-full'>
+							<form action='' onSubmit={handleSubmit} className='w-full '>
+								<label htmlFor='url' className='text-[#141414] font-semibold text-lg'>
+									Video Url
+								</label>
+								<div className='flex items-center gap-6  bg-[#B6B3C680]/20 rounded-md py-2 w-full px-6'>
+									<input type='text' className='w-full placeholder:text-[14px] text-[#4B4B4B] focus:outline-none bg-transparent' disabled value={url} />
+									<button className='bg-transparent text-[#120B48] border border-[#120B48] text-base py-1 px-2  flex items-center justify-center  rounded-[8px] w-[150px] gap-2'>
+										<LuCopy /> copy url
+									</button>
+								</div>
+							</form>
+						</div>
+					</section>
+					<section className='mt-12 px-4'>
+						<h3 className='text-xl font-semibold mb-4'>Share your video</h3>
+						<div className='flex gap-4'>
+							{data.map((item) => (
+								<div className='flex items-center px-4 py-2 gap-2 border border-[#0A0628] rounded-md' key={item.id}>
+									<img src={item.icon} alt={item.name} width={20} height={20} />
+									<p>{item.name}</p>
+								</div>
+							))}
+						</div>
+					</section>
 				</section>
-				<section className='mt-8'>
-					<h3 className='text-xl font-semibold mb-4'>Share your video</h3>
-					<div className='flex gap-4'>
-						{data.map((item) => (
-							<div className='flex items-center px-4 py-2 gap-2 border border-[#0A0628] rounded-md' key={item.id}>
-								<img src={item.icon} alt={item.name} width={20} height={20} />
-								<p>{item.name}</p>
-							</div>
-						))}
-					</div>
-				</section>
-				<section className='mt-8'>
-					<h3 className='text-xl font-semibold mb-4'>Transcript</h3>
-					<select className='border border-[#CFCFCF] text-[#9D9D9D] focus:outline-none rounded-[4px] px-4 py-2'>
-						<option value='english'>English</option>
-						<option value='french'>French</option>
-					</select>
+				<section className='px-8'>
+					<section className='mt-8 shadow-md p-4 rounded-xl'>
+						<video controls className='w-full h-auto my-4 rounded-xl'>
+							<source src='https://example.com/video1.mp4' type='video/mp4' />
+							Your browser does not support the video tag.
+						</video>
+					</section>
 
-					<div className='mt-8 h-[360px] overflow-y-auto transcript'>
-						{videoTranscript.map((item) => (
-							<div className='flex items-start gap-8 mb-4' key={item.id}>
-								<p className='text-[#141414] font-semibold'>{item.time}</p>
-								<p className='text-[#000000] font-semibold'>{item.transcript}</p>
-							</div>
-						))}
-					</div>
+					<section className='mt-8'>
+						<h3 className='text-xl font-semibold mb-4'>Transcript</h3>
+						<select className='border border-[#CFCFCF] text-[#9D9D9D] focus:outline-none rounded-[4px] px-4 py-2'>
+							<option value='english'>English</option>
+							<option value='french'>French</option>
+						</select>
+
+						<div className='mt-8 h-[360px] overflow-y-auto transcript'>
+							{videoTranscript.map((item) => (
+								<div className='flex items-start gap-8 mb-4' key={item.id}>
+									<p className='text-[#141414] font-semibold'>{item.time}</p>
+									<p className='text-[#000000] font-semibold'>{item.transcript}</p>
+								</div>
+							))}
+						</div>
+					</section>
 				</section>
-			</section>
+			</main>
 		</>
 	);
 };

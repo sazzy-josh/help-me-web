@@ -10,11 +10,7 @@ const ScreenRecoder = () => {
 	});
 
 	return (
-		<main
-			className='flex gap-4 '
-			style={{
-				width: '1500px',
-			}}>
+		<main className='flex gap-4 '>
 			{status === 'permission-requested' && <RecordModal isVideo={isVideo} isAudio={isAudio} setIsVideo={setIsVideo} setIsAudio={setIsAudio} startRecording={startRecording} />}
 			<MediaRecorder isVideo={isVideo} isAudio={isAudio} setIsVideo={setIsVideo} setIsAudio={setIsAudio} pauseRecording={pauseRecording} resetRecording={resetRecording} resumeRecording={resumeRecording} startRecording={startRecording} status={status} stopRecording={stopRecording} blobUrl={blobUrl} />
 		</main>

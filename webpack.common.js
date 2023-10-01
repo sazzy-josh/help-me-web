@@ -9,8 +9,7 @@ module.exports = {
 	entry: {
 		popup: path.resolve('src/popup/index.tsx'),
 		helpmeout: path.resolve('src/helpmeout/index.tsx'),
-		recentvideos: path.resolve('src/recentvideos/index.tsx'),
-		videodetails: path.resolve('src/videodetails/index.tsx'),
+
 		signin: path.resolve('src/signin/index.tsx'),
 		background: path.resolve('src/background/background.ts'),
 		contentScript: path.resolve('src/contentScript/contentScript.ts'),
@@ -62,7 +61,7 @@ module.exports = {
 				},
 			],
 		}),
-		...getHtmlPlugins(['popup', 'options', 'newTab', 'helpmeout', 'recentvideos', 'videodetails', 'signin']),
+		...getHtmlPlugins(['popup', 'options', 'newTab', 'helpmeout', 'signin']),
 	],
 	resolve: {
 		extensions: ['.tsx', '.js', '.ts', '.jsx'],

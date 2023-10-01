@@ -1,11 +1,14 @@
 import axios from 'axios';
 
 export const handleUpload = async (base64data: string | ArrayBuffer) => {
-	const data = {
+	const recording = {
 		file: base64data,
 	};
-	const res = await axios.post('https://chrome-extension-y2lb.onrender.com/', data);
-	console.log(res);
+	console.log(base64data);
+	console.log('base64data', recording);
+	const { data } = await axios.post('https://chrome-extension-y2lb.onrender.com/create', recording);
+	console.log(data);
+	return data;
 };
 
 export const handleVideo = async (blobUrl: string, handleUpload: (base64data: string | ArrayBuffer) => void) => {
@@ -14,6 +17,7 @@ export const handleVideo = async (blobUrl: string, handleUpload: (base64data: st
 	reader.readAsDataURL(blob);
 	reader.onloadend = function () {
 		var base64data = reader.result;
-		handleUpload(base64data);
+		const result = handleUpload(base64data);
+		return result;
 	};
 };

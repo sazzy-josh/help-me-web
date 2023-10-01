@@ -5,7 +5,7 @@ const Navbar = () => {
 	return (
 		<nav className=' p-4 px-4 lg:px-16 xl:px-48 flex items-center justify-between border-b-4 border-[#F4F6F8]'>
 			<div className='flex items-center'>
-				<Link to='/' className=''>
+				<Link to='/home' className=''>
 					<img src='logo.png' alt='Logo' width={160} height={70} className=' mr-2' />
 				</Link>
 			</div>
