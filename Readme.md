@@ -1,11 +1,8 @@
-# ReactJS Chrome Extension
+# React + Vite
 
-## React 18 and TailwindCSS Supported
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-- [x] Webpack Compatible
-- [x] TailwindCSS 3.0 Compatible
+Currently, two official plugins are available:
 
-Subscribe to my youtube channel
-https://bit.ly/manshu
-
-<a href="https://www.buymeacoffee.com/batraio" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
